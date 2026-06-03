@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrativo - achados.ignacio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff5f8 0%, #ffe0ec 50%, #ffd6e0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        /* Logo topo */
+        .login-brand {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-brand .brand-icon {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, #ff6b9d, #ffafc5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 14px;
+            box-shadow: 0 12px 32px rgba(255, 107, 157, 0.35);
+        }
+
+        .login-brand h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #2d1b2e;
+            letter-spacing: -0.5px;
+        }
+
+        .login-brand p {
+            font-size: 14px;
+            color: #8c6d7a;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        /* Card do login */
+        .login-card {
+            background: white;
+            border-radius: 28px;
+            padding: 40px 36px;
+            box-shadow: 0 20px 60px rgba(255, 107, 157, 0.15);
+            border: 1px solid #ffd6e0;
+        }
+
+        .login-card h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d1b2e;
+            margin-bottom: 6px;
+        }
+
+        .login-card .sub {
+            font-size: 13px;
+            color: #8c6d7a;
+            margin-bottom: 28px;
+        }
+
+        /* Campos */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2d1b2e;
+            margin-bottom: 8px;
+            letter-spacing: 0.2px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper span {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            pointer-events: none;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 14px 13px 42px;
+            border: 2px solid #f0dce6;
+            border-radius: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #2d1b2e;
+            background: #fafafa;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #ff6b9d;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.12);
+        }
+
+        /* Botão */
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff6b9d, #fb6f92);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 8px 24px rgba(255, 107, 157, 0.35);
+            margin-top: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 32px rgba(255, 107, 157, 0.45);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        /* Erro */
+        .erro-login {
+            text-align: center;
+            color: #e74c3c;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 14px;
+            padding: 10px;
+            background: #fde8e6;
+            border-radius: 10px;
+            display: none;
+        }
+
+        /* Voltar */
+        .voltar-link {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #8c6d7a;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .voltar-link:hover { color: #ff6b9d; }
+
+        /* Decorações */
+        .deco-dots {
+            text-align: center;
+            margin-top: 32px;
+        }
+
+        .deco-dots span {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ffd6e0;
+            margin: 0 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-wrapper">
+
+        <div class="login-brand">
+            <div class="brand-icon">🌸</div>
+            <h1>achados.ignacio</h1>
+            <p>Área Administrativa</p>
+        </div>
+
+        <div class="login-card">
+            <h2>Bem-vinda, Admin! 👋</h2>
+            <p class="sub">Entre com suas credenciais para continuar</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="usuario">Usuário</label>
+                    <div class="input-wrapper">
+                        <span>👤</span>
+                        <input type="text" id="usuario" name="usuario" required placeholder="Digite seu usuário" autocomplete="username">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <div class="input-wrapper">
+                        <span>🔒</span>
+                        <input type="password" id="senha" name="senha" required placeholder="Digite sua senha" autocomplete="current-password">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login">Entrar no Painel</button>
+
+                <div id="erroLogin" class="erro-login">
+                    ❌ Usuário ou senha incorretos
+                </div>
+            </form>
+        </div>
+
+        <a href="index.html" class="voltar-link">← Voltar para a loja</a>
+
+        <div class="deco-dots">
+            <span></span><span></span><span></span>
+        </div>
+
+    </div>
+
+    <script src="supabase.js"></script>
+    <script>
+        if (localStorage.getItem('adminLogado')) {
+            window.location.href = 'painel-admin.html';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const usuario = document.getElementById('usuario').value;
+            const senha = document.getElementById('senha').value;
+            const erroDiv = document.getElementById('erroLogin');
+
+            const usuarioCorreto = 'AdminIgnacio';
+            const senhaCorreta = 'LunaLeon2005@';
+
+            if (usuario === usuarioCorreto && senha === senhaCorreta) {
+                localStorage.setItem('adminLogado', 'true');
+                window.location.href = 'painel-admin.html';
+            } else {
+                erroDiv.style.display = 'block';
+                setTimeout(() => erroDiv.style.display = 'none', 3000);
+            }
+        });
+    </script>
+</body>
+</html>

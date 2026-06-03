@@ -1,0 +1,249 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>achados.ignacio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: "Poppins", sans-serif; background: #fff; color: #1a1a1a; }
+
+        /* ANNOUNCEMENT BAR */
+        .ann-bar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+            background: #e91e8c; color: #fff;
+            padding: 8px 0; overflow: hidden; white-space: nowrap;
+            font-family: "Poppins", sans-serif; font-size: 13px; font-weight: 500;
+        }
+        .ann-track {
+            display: inline-flex;
+            animation: ticker 28s linear infinite;
+        }
+        .ann-bar:hover .ann-track { animation-play-state: paused; }
+        .ann-item { display: inline-flex; align-items: center; gap: 10px; padding: 0 32px; }
+        .ann-sep { opacity: .5; }
+        @keyframes ticker {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* HEADER */
+        header {
+            position: fixed; top: 37px; left: 0; right: 0; height: 60px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(240,220,230,0.6);
+            display: flex; align-items: center; justify-content: center;
+            padding: 0 32px; z-index: 200;
+        }
+        .logo { font-size: 17px; font-weight: 800; color: #1a1a1a; letter-spacing: -0.5px; text-decoration: none; }
+        .logo span { color: #ff8fab; }
+        .admin-link { position: absolute; right: 32px; font-size: 11px; color: #ccc; text-decoration: none; font-weight: 500; transition: color 0.2s; }
+        .admin-link:hover { color: #ff8fab; }
+
+        /* HERO */
+        .hero {
+            position: relative; height: 78vh; min-height: 480px; max-height: 720px;
+            overflow: hidden; background: #1a1a1a;
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: url("img/bannergatos4.png") center center / cover no-repeat;
+            opacity: 0.75; transform: scale(1.05); transition: transform 10s ease;
+        }
+        .hero:hover .hero-bg { transform: scale(1); }
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(160deg, rgba(26,26,26,0.55) 0%, rgba(26,26,26,0.2) 50%, rgba(26,26,26,0.72) 100%);
+        }
+        .hero-content {
+            position: relative; height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; padding: 80px 24px 60px; gap: 0;
+        }
+        .hero-label {
+            font-size: 11px; font-weight: 600; letter-spacing: 3px;
+            text-transform: uppercase; color: #ffb3c6; margin-bottom: 18px;
+        }
+        .hero-title {
+            font-size: clamp(38px, 7vw, 70px); font-weight: 800; color: #fff;
+            line-height: 1.08; letter-spacing: -2px; margin-bottom: 18px; max-width: 680px;
+        }
+        .hero-title em { font-style: normal; color: #ffb3c6; }
+        .hero-sub {
+            font-size: 15px; color: rgba(255,255,255,0.6);
+            font-weight: 400; margin-bottom: 40px;
+        }
+        .btn-hero {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 15px 36px; background: #ff8fab; color: white;
+            border-radius: 999px; font-family: "Poppins", sans-serif;
+            font-size: 14px; font-weight: 700; text-decoration: none;
+            transition: all 0.25s; box-shadow: 0 8px 28px rgba(255,143,171,0.45);
+        }
+        .btn-hero:hover { background: #ff6b9d; transform: translateY(-3px); box-shadow: 0 14px 36px rgba(255,107,157,0.5); }
+        .hero-scroll {
+            position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+            color: rgba(255,255,255,0.4); font-size: 20px; text-decoration: none;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%,100% { transform: translateX(-50%) translateY(0); }
+            50%      { transform: translateX(-50%) translateY(7px); }
+        }
+
+        /* EXPLORE */
+        .explore { background: #fff; padding: 80px 24px 72px; }
+        .explore-inner { max-width: 740px; margin: 0 auto; }
+        .explore-label {
+            text-align: center; font-size: 11px; font-weight: 600;
+            letter-spacing: 3px; text-transform: uppercase; color: #ff8fab; margin-bottom: 36px;
+        }
+        .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 540px) { .cards { grid-template-columns: 1fr; } }
+
+        .card {
+            text-decoration: none; border-radius: 20px; overflow: hidden;
+            display: flex; flex-direction: column; padding: 36px 30px 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover { transform: translateY(-6px); }
+
+        .card-brecho { background: #ffb3c6; box-shadow: 0 8px 32px rgba(26,26,26,0.18); }
+        .card-brecho:hover { box-shadow: 0 20px 48px rgba(26,26,26,0.28); }
+
+        .card-loja { background: #ffb3c6; border: 1.5px solid #ffd6e0; box-shadow: 0 8px 32px rgba(122, 116, 168, 0.07); }
+        .card-loja:hover { box-shadow: 0 20px 48px rgba(107, 154, 255, 0.14); border-color: #ffb3c6; }
+
+        .card-tag { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; color: #ff8fab; }
+
+        .card-title { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.15; margin-bottom: 6px; }
+        .card-brecho .card-title { color: #1a1a1a; }
+        .card-loja .card-title { color: #1a1a1a; }
+
+        .card-sub { font-size: 13px; font-weight: 400; margin-bottom: 30px; }
+        .card-brecho .card-sub { color: #705f66; }
+        .card-loja .card-sub { color: #705f66; }
+
+        .card-arrow {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 13px; font-weight: 700; padding: 10px 20px;
+            border-radius: 999px; align-self: flex-start; transition: gap 0.2s;
+        }
+        .card-brecho .card-arrow { background: #ff8fab; color: white; border: 1px solid rgba(255,255,255,0.18); }
+        .card-loja .card-arrow { background: #ff8fab; color: white; box-shadow: 0 4px 14px rgba(255,143,171,0.35); }
+        .card:hover .card-arrow { gap: 10px; }
+
+        .como-link {
+            display: block; text-align: center; margin-top: 26px;
+            font-size: 13px; color: #ff8fab; text-decoration: none;
+            font-weight: 500; transition: color 0.2s;
+        }
+        .como-link:hover { color: #ff8fab; }
+
+        /* FOOTER */
+        footer {
+            background: #1a1a1a; padding: 26px 32px;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 12px; flex-wrap: wrap;
+        }
+        .footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); font-weight: 400; }
+        .footer-links { display: inline-flex; align-items: center; gap: 20px; }
+        .footer-insta { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.45); text-decoration: none; font-weight: 600; transition: color 0.2s; }
+        .footer-insta:hover { color: #ff8fab; }
+        .footer-email { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.35); text-decoration: none; font-weight: 400; transition: color 0.2s; }
+        .footer-email:hover { color: #ff8fab; }
+
+        @media (max-width: 640px) {
+            header { padding: 0 20px; }
+            .explore { padding: 56px 16px 52px; }
+            .card { padding: 28px 24px 26px; }
+            footer { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="ann-bar">
+  <div class="ann-track">
+    <span class="ann-item">★ Entregamos em toda Baixada Santista &nbsp;||&nbsp; • Santos &nbsp;• Guarujá &nbsp;• São Vicente &nbsp;• Praia Grande &nbsp;• Zona Noroeste &nbsp;• Cubatão</span><span class="ann-sep"> ✦ </span>
+    <span class="ann-item">★ Entregamos em toda Baixada Santista &nbsp;||&nbsp; • Santos &nbsp;• Guarujá &nbsp;• São Vicente &nbsp;• Praia Grande &nbsp;• Zona Noroeste &nbsp;• Cubatão</span><span class="ann-sep"> ✦ </span>
+    <span class="ann-item">★ Entregamos em toda Baixada Santista &nbsp;||&nbsp; • Santos &nbsp;• Guarujá &nbsp;• São Vicente &nbsp;• Praia Grande &nbsp;• Zona Noroeste &nbsp;• Cubatão</span><span class="ann-sep"> ✦ </span>
+    <span class="ann-item">★ Entregamos em toda Baixada Santista &nbsp;||&nbsp; • Santos &nbsp;• Guarujá &nbsp;• São Vicente &nbsp;• Praia Grande &nbsp;• Zona Noroeste &nbsp;• Cubatão</span><span class="ann-sep"> ✦ </span>
+  </div>
+</div>
+
+<header>
+    <a href="#" class="logo">achados<span>.</span>ignacio</a>
+    <a href="admin.html" class="admin-link">acesso admin</a>
+</header>
+
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <p class="hero-label">achados.ignacio</p>
+        <h1 class="hero-title">Moda que conta<br><em>histórias</em></h1>
+        <p class="hero-sub">Peças únicas com muito charme e carinho</p>
+        <a href="#explorar" class="btn-hero">Ver coleção ↓</a>
+    </div>
+    <a href="#explorar" class="hero-scroll">↓</a>
+</section>
+
+<section class="explore" id="explorar">
+    <div class="explore-inner">
+        <p class="explore-label">nossa loja</p>
+        <div class="cards">
+            <a href="brecho.html" class="card card-brecho">
+                <span class="card-tag">♻️ Brechó Online</span>
+                <h2 class="card-title">Peças<br>Vintage</h2>
+                <p class="card-sub">Segunda mão com muito estilo</p>
+                <span class="card-arrow">Ver peças →</span>
+            </a>
+            <a href="loja-online.html" class="card card-loja">
+                <span class="card-tag">🛍️ Loja Online</span>
+                <h2 class="card-title">Produtos<br>Novos</h2>
+                <p class="card-sub">Selecionados com carinho</p>
+                <span class="card-arrow">Ver produtos →</span>
+            </a>
+        </div>
+        <a href="como-comprar.html" class="como-link">Como funciona o pedido? →</a>
+    </div>
+</section>
+
+<footer>
+    <span class="footer-copy">© 2026 achados.ignacio</span>
+    <div class="footer-links">
+        <a href="https://instagram.com/achados_ignacio013" target="_blank" class="footer-insta">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            @achados_ignacio013
+        </a>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=achadosignacio@gmail.com" target="_blank" class="footer-email">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+            achadosignacio@gmail.com
+        </a>
+    </div>
+</footer>
+
+<script src="supabase.js"></script>
+<script>
+(function () {
+    var params = new URLSearchParams(window.location.search);
+    var termo = params.get("busca");
+    if (!termo) return;
+    supabaseFetch("pecas?select=*").then(function(produtos) {
+        if (!produtos) return;
+        var encontrado = produtos.find(function(p) { return (p.nome || "").toLowerCase().includes(termo.toLowerCase()); });
+        if (!encontrado) return;
+        window.location.href = encontrado.tipo === "brecho"
+            ? "brecho.html?busca=" + encodeURIComponent(termo)
+            : "loja-online.html?busca=" + encodeURIComponent(termo);
+    }).catch(function() {});
+}());
+</script>
+
+</body>
+</html>

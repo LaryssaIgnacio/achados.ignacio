@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brechó Online - achados.ignacio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET / BASE ===== */
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif !important;
+            background: #faf5f8 !important;
+            margin: 0;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d1b2e 100%) !important;
+            height: 70px !important;
+            padding: 0 28px !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 100 !important;
+            box-shadow: 0 3px 20px rgba(45, 27, 46, 0.4) !important;
+            gap: 16px !important;
+        }
+
+        header .voltar {
+            color: rgba(255,255,255,0.7) !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            text-decoration: none !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            transition: color 0.2s !important;
+            transform: none !important;
+            position: static !important;
+        }
+
+        header .voltar:hover { color: white !important; }
+
+        header h1 {
+            color: white !important;
+            font-size: 18px !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.3px !important;
+            white-space: nowrap !important;
+        }
+
+        .search-bar {
+            flex: 1 !important;
+            max-width: 400px !important;
+            position: relative !important;
+            margin-top: 0 !important;
+            width: unset !important;
+        }
+
+        .search-input {
+            background: rgba(255,255,255,0.1) !important;
+            border: none !important;
+            border-radius: 999px !important;
+            padding: 10px 40px 10px 16px !important;
+            color: white !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 13px !important;
+            width: 100% !important;
+        }
+
+        .search-input::placeholder { color: rgba(255,255,255,0.45) !important; }
+
+        .search-input:focus {
+            outline: none !important;
+            background: rgba(255,255,255,0.17) !important;
+            box-shadow: 0 0 0 2px rgba(255, 143, 171, 0.5) !important;
+        }
+
+        .icone-lupa {
+            right: 12px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            color: rgba(255,255,255,0.4) !important;
+            font-size: 14px !important;
+        }
+
+        .btn-admin-link {
+            color: rgba(255,255,255,0.5) !important;
+            font-size: 12px !important;
+            text-decoration: none !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+            font-weight: 500 !important;
+            position: static !important;
+            transform: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+            transition: color 0.2s !important;
+        }
+
+        .btn-admin-link:hover { color: #ff8fab !important; }
+
+        /* ===== PAGE TITLE BAR ===== */
+        .page-title-bar {
+            background: linear-gradient(135deg, #2d1b2e, #5a3060);
+            padding: 28px 28px 32px;
+            text-align: center;
+        }
+
+        .page-title-bar .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 143, 171, 0.2);
+            border: 1px solid rgba(255, 143, 171, 0.4);
+            color: #ffb3c6;
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .page-title-bar h2 {
+            color: white;
+            font-size: clamp(20px, 4vw, 28px);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .page-title-bar p {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+        }
+
+        /* ===== FILTROS ===== */
+        .filters-wrapper {
+            background: white;
+            position: sticky;
+            top: 70px;
+            z-index: 90;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            padding: 0 16px;
+        }
+
+        .generos-brecho,
+        .filtros-brecho {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            gap: 8px !important;
+            overflow-x: auto !important;
+            padding: 14px 0 !important;
+            margin: 0 !important;
+            scrollbar-width: none !important;
+            justify-content: flex-start !important;
+        }
+
+        .generos-brecho { border-bottom: 1px solid #f0dce6; }
+
+        .generos-brecho::-webkit-scrollbar,
+        .filtros-brecho::-webkit-scrollbar { display: none; }
+
+        .genero-btn,
+        .filtro-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            white-space: nowrap !important;
+            padding: 8px 18px !important;
+            border-radius: 999px !important;
+            border: 1.5px solid #f0dce6 !important;
+            background: white !important;
+            color: #8c6d7a !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            transition: all 0.2s !important;
+            flex-shrink: 0 !important;
+        }
+
+        .genero-btn:hover,
+        .filtro-btn:hover {
+            border-color: #ff8fab !important;
+            color: #ff6b9d !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .genero-btn.active,
+        .filtro-btn.active {
+            background: #2d1b2e !important;
+            color: white !important;
+            border-color: #2d1b2e !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(45, 27, 46, 0.25) !important;
+        }
+
+        .filtro-btn.disabled {
+            opacity: 0.35 !important;
+            cursor: not-allowed !important;
+            pointer-events: none !important;
+        }
+
+        /* ===== PRODUTOS GRID ===== */
+        main {
+            max-width: 1400px !important;
+            margin: 0 auto !important;
+            padding: 0 !important;
+        }
+
+        .produtos {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 20px !important;
+            padding: 28px 24px !important;
+        }
+
+        @media (max-width: 1200px) { .produtos { grid-template-columns: repeat(3, 1fr) !important; } }
+        @media (max-width: 900px)  { .produtos { grid-template-columns: repeat(2, 1fr) !important; } }
+        @media (max-width: 480px)  { .produtos { grid-template-columns: 1fr !important; padding: 16px !important; } }
+
+        /* ===== CARD DO PRODUTO ===== */
+        .produto {
+            background: white !important;
+            border-radius: 20px !important;
+            overflow: hidden !important;
+            box-shadow: 0 4px 16px rgba(45, 27, 46, 0.08) !important;
+            border: 1.5px solid #fdeaf1 !important;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            padding: 0 !important;
+        }
+
+        .produto:hover {
+            transform: translateY(-8px) !important;
+            box-shadow: 0 18px 40px rgba(45, 27, 46, 0.14) !important;
+            border-color: #ffb3c6 !important;
+        }
+
+        /* Carrossel */
+        .carrossel-container {
+            position: relative !important;
+            width: 100% !important;
+            aspect-ratio: 3/4 !important;
+            overflow: hidden !important;
+            border-radius: 0 !important;
+            background: #f8f0f4 !important;
+        }
+
+        .carrossel-imagens { width: 100% !important; height: 100% !important; }
+
+        .carrossel-imagens .slide-img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            transition: transform 0.4s ease !important;
+        }
+
+        .produto:hover .slide-img { transform: scale(1.04) !important; }
+
+        .seta-nav {
+            position: absolute !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            background: rgba(255,255,255,0.85) !important;
+            color: #2d1b2e !important;
+            border: none !important;
+            width: 34px !important;
+            height: 34px !important;
+            border-radius: 50% !important;
+            cursor: pointer !important;
+            font-size: 14px !important;
+            z-index: 10 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: all 0.2s !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15) !important;
+        }
+
+        .seta-nav:hover {
+            background: white !important;
+            transform: translateY(-50%) scale(1.1) !important;
+        }
+
+        .seta-esq { left: 10px !important; }
+        .seta-dir { right: 10px !important; }
+
+        .indicadores {
+            position: absolute !important;
+            bottom: 10px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            display: flex !important;
+            gap: 5px !important;
+            z-index: 10 !important;
+        }
+
+        .indicador {
+            width: 6px !important;
+            height: 6px !important;
+            border-radius: 50% !important;
+            background: rgba(255,255,255,0.5) !important;
+            cursor: pointer !important;
+            transition: all 0.2s !important;
+        }
+
+        .indicador.active {
+            background: white !important;
+            transform: scale(1.3) !important;
+        }
+
+        .overlay-produto {
+            position: absolute !important;
+            inset: 0 !important;
+            background: rgba(45, 27, 46, 0.65) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: white !important;
+            font-size: 14px !important;
+            font-weight: 800 !important;
+            letter-spacing: 2.5px !important;
+            text-transform: uppercase !important;
+            z-index: 20 !important;
+        }
+
+        .produto.indisponivel .slide-img {
+            filter: grayscale(80%) brightness(0.65) !important;
+        }
+
+        /* Info do produto */
+        .produto-body {
+            padding: 16px 16px 18px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            flex: 1 !important;
+        }
+
+        /* Tag */
+        .tag-produto-brecho {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            padding: 4px 10px !important;
+            background: linear-gradient(135deg, #2d1b2e, #5a3060) !important;
+            color: white !important;
+            border-radius: 999px !important;
+            font-size: 10px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.8px !important;
+            text-transform: uppercase !important;
+            margin-bottom: 8px !important;
+            align-self: flex-start !important;
+        }
+
+        .produto-nome {
+            font-size: 15px !important;
+            font-weight: 700 !important;
+            color: #2d1b2e !important;
+            margin: 0 0 6px !important;
+            line-height: 1.35 !important;
+            min-height: 40px !important;
+        }
+
+        .produto-preco {
+            display: block !important;
+            font-size: 20px !important;
+            font-weight: 800 !important;
+            color: #ff6b9d !important;
+            margin-bottom: 12px !important;
+            letter-spacing: -0.5px !important;
+        }
+
+        .btn-disponivel {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            padding: 11px 16px !important;
+            background: linear-gradient(135deg, #25D366, #1db954) !important;
+            color: white !important;
+            border-radius: 12px !important;
+            text-decoration: none !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            transition: all 0.2s !important;
+            box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3) !important;
+            margin-top: auto !important;
+            width: 100% !important;
+        }
+
+        .btn-disponivel:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4) !important;
+        }
+
+        .btn-disponivel::before { content: "💬 "; }
+
+        .btn-indisponivel {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 11px 16px !important;
+            background: #f0f0f0 !important;
+            color: #999 !important;
+            border-radius: 12px !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            margin-top: auto !important;
+            width: 100% !important;
+        }
+
+        /* Classe de ocultação — ganha do display:flex !important */
+        .produto-oculto { display: none !important; }
+
+        /* ===== ESTADO VAZIO ===== */
+        .sem-produtos {
+            padding: 80px 24px !important;
+            justify-content: center !important;
+        }
+
+        .sem-produtos p {
+            background: white !important;
+            padding: 28px 36px !important;
+            border-radius: 20px !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 15px !important;
+            color: #8c6d7a !important;
+            box-shadow: 0 4px 20px rgba(45, 27, 46, 0.08) !important;
+            border: 1.5px solid #fdeaf1 !important;
+        }
+
+        /* ===== FOOTER ===== */
+        .page-footer {
+            background: #1a1a1a;
+            color: rgba(255,255,255,0.45);
+            text-align: center;
+            padding: 24px;
+            font-size: 13px;
+            margin-top: 16px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            header { height: 60px !important; padding: 0 16px !important; }
+            header h1 { font-size: 16px !important; }
+            .filters-wrapper { top: 60px !important; }
+            .page-title-bar { padding: 20px 16px 24px !important; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="voltar">← Voltar</a>
+    <h1>Brechó Online ♻️</h1>
+    <form class="search-bar" onsubmit="return false;">
+        <input
+            id="searchInputBrecho"
+            class="search-input"
+            type="search"
+            placeholder="Pesquisar peças..."
+        >
+        <span class="icone-lupa">🔍</span>
+    </form>
+    <a href="admin.html" class="btn-admin-link">🔐 Admin</a>
+</header>
+
+<!-- Título da página -->
+<div class="page-title-bar">
+    <div class="tag">♻️ estilo vintage</div>
+    <h2>Brechó Online</h2>
+    <p>Peças únicas com história e muito charme</p>
+</div>
+
+<!-- Filtros sticky -->
+<div class="filters-wrapper">
+    <div class="generos-brecho">
+        <button class="genero-btn active" data-genero="todos">👗 Todos</button>
+        <button class="genero-btn" data-genero="feminino">♀️ Feminino</button>
+        <button class="genero-btn" data-genero="masculino">♂️ Masculino</button>
+    </div>
+    <div class="filtros-brecho">
+        <button class="filtro-btn active" data-categoria="todos">Todos</button>
+        <button class="filtro-btn" data-categoria="blusas">Blusas</button>
+        <button class="filtro-btn" data-categoria="calças">Calças</button>
+        <button class="filtro-btn" data-categoria="shorts">Shorts</button>
+        <button class="filtro-btn" data-categoria="saias">Saias</button>
+        <button class="filtro-btn" data-categoria="vestidos">Vestidos</button>
+        <button class="filtro-btn" data-categoria="casacos">Casacos</button>
+        <button class="filtro-btn" data-categoria="sapatos">Sapatos</button>
+        <button class="filtro-btn" data-categoria="acessorios">Acessórios</button>
+    </div>
+</div>
+
+<main>
+    <div id="semProdutos" class="sem-produtos" style="display:none;">
+        <p>✨ Nenhuma peça encontrada. Tente outro filtro!</p>
+    </div>
+    <div id="produtosBrecho" class="produtos">
+        <p style="grid-column:1/-1; text-align:center; padding:60px 20px; color:#8c6d7a; font-family:Poppins,sans-serif;">
+            Carregando peças...
+        </p>
+    </div>
+</main>
+
+<footer class="page-footer">
+    🌸 achados.ignacio &nbsp;|&nbsp; <a href="index.html" style="color:#ff8fab;text-decoration:none;">Voltar à Home</a>
+</footer>
+
+<script src="supabase.js"></script>
+<script>
+
+    /* ── Carrossel ── */
+    function mudarSlide(botao, direcao) {
+        const container = botao.parentElement;
+        const imagens = container.querySelectorAll('.slide-img');
+        const indicadores = container.querySelectorAll('.indicador');
+        let cur = 0;
+        imagens.forEach((img, i) => { if (img.style.display === 'block') cur = i; });
+        imagens[cur].style.display = 'none';
+        indicadores[cur]?.classList.remove('active');
+        let next = cur + direcao;
+        if (next >= imagens.length) next = 0;
+        if (next < 0) next = imagens.length - 1;
+        imagens[next].style.display = 'block';
+        indicadores[next]?.classList.add('active');
+    }
+
+    function irParaSlide(indicador, indice) {
+        const container = indicador.parentElement.parentElement;
+        const imagens = container.querySelectorAll('.slide-img');
+        const indicadores = container.querySelectorAll('.indicador');
+        imagens.forEach(img => img.style.display = 'none');
+        indicadores.forEach(ind => ind.classList.remove('active'));
+        imagens[indice].style.display = 'block';
+        indicador.classList.add('active');
+    }
+
+    /* ── Utilitários ── */
+    function extrairGeneroDescricao(descricao) {
+        const match = (descricao || '').match(/^\[sexo=(feminino|masculino)\]/i);
+        return match ? match[1].toLowerCase() : '';
+    }
+
+    function normalizar(text) {
+        return (text || '').toLowerCase()
+            .normalize('NFD').replace(/[̀-ͯ]/g, '')
+            .replace(/[^a-z0-9\s]/g, '').trim();
+    }
+
+    /* ── Estado dos filtros ── */
+    let catAtual = 'todos';
+    let genAtual = 'todos';
+
+    /* ── Filtrar ── */
+    function filtrar() {
+        const busca = normalizar(document.getElementById('searchInputBrecho')?.value || '');
+        const cards = document.querySelectorAll('#produtosBrecho .produto');
+        let visiveis = 0;
+
+        cards.forEach(card => {
+            const cat  = normalizar(card.dataset.categoria || '');
+            const gen  = normalizar(card.dataset.genero || 'todos');
+            const nome = normalizar(card.dataset.nome || '');
+
+            const okCat   = catAtual === 'todos' || cat === normalizar(catAtual);
+            const okGen   = genAtual === 'todos' || gen === genAtual;
+            const okBusca = busca === '' || nome.includes(busca);
+            const okMasc  = !(genAtual === 'masculino' && (cat === 'saias' || cat === 'vestidos'));
+
+            if (okCat && okGen && okBusca && okMasc) {
+                card.classList.remove('produto-oculto');
+                visiveis++;
+            } else {
+                card.classList.add('produto-oculto');
+            }
+        });
+
+        const sem = document.getElementById('semProdutos');
+        if (sem) sem.style.display = visiveis === 0 ? 'flex' : 'none';
+    }
+
+    /* ── Bloquear Saias/Vestidos no Masculino ── */
+    function atualizarBloqueioMasc() {
+        document.querySelectorAll('.filtros-brecho .filtro-btn').forEach(btn => {
+            const c = normalizar(btn.dataset.categoria || '');
+            const bloquear = genAtual === 'masculino' && (c === 'saias' || c === 'vestidos');
+            if (bloquear) {
+                btn.classList.add('disabled');
+                if (btn.classList.contains('active')) {
+                    btn.classList.remove('active');
+                    document.querySelector('.filtros-brecho .filtro-btn[data-categoria="todos"]')?.classList.add('active');
+                    catAtual = 'todos';
+                }
+            } else {
+                btn.classList.remove('disabled');
+            }
+        });
+    }
+
+    /* ── Init ── */
+    document.addEventListener('DOMContentLoaded', function () {
+        carregarProdutosBrecho();
+
+        /* Filtros de gênero */
+        document.querySelectorAll('.generos-brecho .genero-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.generos-brecho .genero-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                genAtual = this.dataset.genero || 'todos';
+                atualizarBloqueioMasc();
+                filtrar();
+            });
+        });
+
+        /* Filtros de categoria */
+        document.querySelectorAll('.filtros-brecho .filtro-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                if (this.classList.contains('disabled')) return;
+                document.querySelectorAll('.filtros-brecho .filtro-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                catAtual = this.dataset.categoria || 'todos';
+                filtrar();
+            });
+        });
+
+        /* Pesquisa */
+        document.getElementById('searchInputBrecho')?.addEventListener('input', filtrar);
+
+        /* URL busca */
+        const busca = new URLSearchParams(window.location.search).get('busca');
+        if (busca) {
+            const inp = document.getElementById('searchInputBrecho');
+            if (inp) inp.value = busca;
+            setTimeout(filtrar, 600);
+        }
+    });
+
+    async function carregarProdutosBrecho() {
+        const grid = document.getElementById('produtosBrecho');
+        const semProdutos = document.getElementById('semProdutos');
+        if (!grid) return;
+
+        try {
+            const pecas = await supabaseFetch('pecas?tipo=eq.brecho&order=created_at.desc');
+
+            if (!pecas || pecas.length === 0) {
+                grid.style.display = 'none';
+                semProdutos.style.display = 'flex';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            semProdutos.style.display = 'none';
+
+            grid.innerHTML = pecas.map(peca => {
+                const imagens = peca.imagem_url
+                    ? peca.imagem_url.split(',').map(img => img.trim())
+                    : [];
+                const temMaisImagens = imagens.length > 1;
+                const estaIndisponivel = peca.disponivel !== 'sim';
+
+                const genero = peca.genero || peca.sexo || extrairGeneroDescricao(peca.descricao) || 'todos';
+
+                return `
+                <div class="produto ${estaIndisponivel ? 'indisponivel' : ''}"
+                    data-categoria="${(peca.categoria || 'todos').toLowerCase()}"
+                    data-genero="${genero.toLowerCase()}"
+                    data-nome="${(peca.nome || '').toLowerCase()}"
+                >
+                    <div class="carrossel-container">
+                        ${temMaisImagens ? `<button class="seta-nav seta-esq" onclick="mudarSlide(this, -1)">&#10094;</button>` : ''}
+                        <div class="carrossel-imagens">
+                            ${imagens.length > 0
+                                ? imagens.map((img, i) => `<img src="${img}" alt="${peca.nome}" class="slide-img" style="${i === 0 ? 'display:block' : 'display:none'}" loading="lazy">`).join('')
+                                : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f8f0f4;font-size:48px;color:#ddd;">📷</div>`
+                            }
+                        </div>
+                        ${estaIndisponivel ? `<div class="overlay-produto">Indisponível</div>` : ''}
+                        ${temMaisImagens ? `<button class="seta-nav seta-dir" onclick="mudarSlide(this, 1)">&#10095;</button>` : ''}
+                        ${temMaisImagens ? `<div class="indicadores">${imagens.map((_, i) => `<span class="indicador ${i === 0 ? 'active' : ''}" onclick="irParaSlide(this, ${i})"></span>`).join('')}</div>` : ''}
+                    </div>
+                    <div class="produto-body">
+                        <span class="tag-produto-brecho">♻️ Brechó</span>
+                        <p class="produto-nome">${peca.nome}</p>
+                        <span class="produto-preco">R$ ${parseFloat(peca.preco).toFixed(2).replace('.', ',')}</span>
+                        ${!estaIndisponivel
+                            ? `<a href="https://wa.me/5513991692344?text=Oi%20tenho%20interesse%20no%20${encodeURIComponent(peca.nome)}" target="_blank" class="btn-disponivel">Disponível</a>`
+                            : `<span class="btn-indisponivel">Indisponível</span>`
+                        }
+                    </div>
+                </div>`;
+            }).join('');
+
+        } catch (error) {
+            console.error('Erro ao carregar produtos:', error);
+            grid.style.display = 'none';
+            semProdutos.style.display = 'flex';
+        }
+    }
+</script>
+
+</body>
+</html>

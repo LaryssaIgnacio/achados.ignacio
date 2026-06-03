@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - achados.ignacio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #fff5f8;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .admin-header {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ffafc5 100%);
+            padding: 20px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 24px rgba(255, 107, 157, 0.25);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-brand .logo-text {
+            color: white;
+        }
+
+        .header-brand .logo-text h1 {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .header-brand .logo-text p {
+            font-size: 13px;
+            opacity: 0.85;
+            font-weight: 400;
+        }
+
+        .btn-sair {
+            background: rgba(255,255,255,0.2);
+            border: 1.5px solid rgba(255,255,255,0.5);
+            color: white;
+            padding: 9px 22px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-sair:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        /* ===== MAIN ===== */
+        main {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 60px 24px 80px;
+        }
+
+        .boas-vindas {
+            text-align: center;
+            margin-bottom: 52px;
+        }
+
+        .boas-vindas .avatar {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, #ff6b9d, #ffafc5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 24px rgba(255, 107, 157, 0.3);
+        }
+
+        .boas-vindas h2 {
+            font-size: 30px;
+            font-weight: 700;
+            color: #2d1b2e;
+            margin-bottom: 8px;
+        }
+
+        .boas-vindas p {
+            color: #8c6d7a;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        /* ===== GRID PAINEIS ===== */
+        .paineis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+
+        @media (max-width: 640px) {
+            .paineis-grid { grid-template-columns: 1fr; }
+            main { padding: 40px 16px; }
+            .boas-vindas h2 { font-size: 24px; }
+        }
+
+        .painel-card {
+            background: white;
+            border-radius: 28px;
+            padding: 40px 32px;
+            text-decoration: none;
+            display: block;
+            box-shadow: 0 8px 32px rgba(255, 107, 157, 0.1);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .painel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            border-radius: 28px 28px 0 0;
+        }
+
+        .painel-card.brecho::before {
+            background: linear-gradient(90deg, #2d1b2e, #6b3d6e);
+        }
+
+        .painel-card.loja::before {
+            background: linear-gradient(90deg, #ff6b9d, #ffafc5);
+        }
+
+        .painel-card:hover {
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: 0 24px 56px rgba(255, 107, 157, 0.2);
+        }
+
+        .painel-card.brecho:hover { border-color: #e0c8e4; }
+        .painel-card.loja:hover { border-color: #ffd6e0; }
+
+        .painel-card .card-icon {
+            font-size: 52px;
+            margin-bottom: 18px;
+            display: block;
+            line-height: 1;
+        }
+
+        .painel-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .painel-card.brecho h3 { color: #2d1b2e; }
+        .painel-card.loja h3 { color: #2d1b2e; }
+
+        .painel-card .card-desc {
+            font-size: 14px;
+            line-height: 1.65;
+            margin-bottom: 28px;
+            color: #8c6d7a;
+        }
+
+        .painel-card .btn-acessar {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 26px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .painel-card.brecho .btn-acessar {
+            background: linear-gradient(135deg, #2d1b2e, #5a3060);
+            color: white;
+        }
+
+        .painel-card.loja .btn-acessar {
+            background: linear-gradient(135deg, #ff6b9d, #fb6f92);
+            color: white;
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.35);
+        }
+
+        .painel-card:hover .btn-acessar {
+            transform: translateX(4px);
+        }
+
+        /* ===== DICA ===== */
+        .dica {
+            text-align: center;
+            margin-top: 48px;
+            padding: 20px 24px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(255, 107, 157, 0.08);
+            border-left: 4px solid #ffb3c6;
+        }
+
+        .dica p {
+            color: #8c6d7a;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .dica strong { color: #2d1b2e; }
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <div class="header-brand">
+            <div class="logo-text">
+                <h1>🌸 achados.ignacio</h1>
+                <p>Área Administrativa</p>
+            </div>
+        </div>
+        <button onclick="logout()" class="btn-sair">
+            ← Sair
+        </button>
+    </header>
+
+    <main>
+        <div class="boas-vindas">
+            <div class="avatar">👩‍💼</div>
+            <h2>Olá, Admin!</h2>
+            <p>Escolha qual painel você deseja gerenciar hoje</p>
+        </div>
+
+        <div class="paineis-grid">
+
+            <a href="painel-brecho.html" class="painel-card brecho">
+                <span class="card-icon">♻️</span>
+                <h3>Brechó Online</h3>
+                <p class="card-desc">
+                    Gerencie as peças vintage e de segunda mão do brechó. Adicione, edite e controle a disponibilidade das peças.
+                </p>
+                <span class="btn-acessar">Acessar Painel →</span>
+            </a>
+
+            <a href="painel-loja.html" class="painel-card loja">
+                <span class="card-icon">🛍️</span>
+                <h3>Loja Online</h3>
+                <p class="card-desc">
+                    Gerencie os produtos novos da loja online. Adicione, edite e controle o estoque dos produtos disponíveis.
+                </p>
+                <span class="btn-acessar">Acessar Painel →</span>
+            </a>
+
+        </div>
+
+        <div class="dica">
+            <p>💡 <strong>Dica:</strong> Cada painel mostra apenas os produtos do seu tipo. Brechó = peças usadas/vintage. Loja = produtos novos.</p>
+        </div>
+    </main>
+
+    <script src="supabase.js"></script>
+    <script>
+        if (!localStorage.getItem('adminLogado')) {
+            window.location.href = 'admin.html';
+        }
+
+        function logout() {
+            if (confirm('Deseja sair da área administrativa?')) {
+                localStorage.removeItem('adminLogado');
+                window.location.href = 'admin.html';
+            }
+        }
+    </script>
+</body>
+</html>

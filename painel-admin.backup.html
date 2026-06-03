@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - achados.ignacio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="painel-admin">
+
+    <header class="admin-header">
+        <h1>🛠️ Painel Administrativo</h1>
+        <div class="admin-actions">
+            <span id="usuarioLogado">Olá, Admin!</span>
+            <button onclick="logout()" class="btn-sair">Sair</button>
+        </div>
+    </header>
+
+    <main class="painel-container">
+        
+        <!-- Seção: Adicionar Nova Peça -->
+        <section class="painel-section">
+            <h2>➕ Adicionar Nova Peça</h2>
+            
+            <form id="formNovaPeca" class="form-admin">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nomePeca">Nome da Peça</label>
+                        <input type="text" id="nomePeca" required placeholder="Ex: Blusa Floral ">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="categoriaPeca">Categoria</label>
+                        <select id="categoriaPeca" required>
+                            <option value="">Selecione...</option>
+                            <option value="blusas">Blusas</option>
+                            <option value="calças">Calças</option>
+                            <option value="shorts">Shorts</option>
+                            <option value="saias">Saias</option>
+                            <option value="vestidos">Vestidos</option>
+                            <option value="casacos">Casacos</option>
+                            <option value="sapatos">Sapatos</option>
+                            <option value="acessorios">Acessórios</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="generoPeca">Gênero</label>
+                        <select id="generoPeca" required>
+                            <option value="">Selecione...</option>
+                            <option value="feminino">Feminino</option>
+                            <option value="masculino">Masculino</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="precoPeca">Preço (R$)</label>
+                        <input type="number" id="precoPeca" step="0.01" required placeholder="0,00">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tamanhoPeca">Tamanho</label>
+                        <select id="tamanhoPeca" required>
+                            <option value="">Selecione...</option>
+                            <option value="PP">PP</option>
+                            <option value="P">P</option>
+                            <option value="M">M</option>
+                            <option value="G">G</option>
+                            <option value="GG">GG</option>
+                            <option value="34">34</option>
+                            <option value="36">36</option>
+                            <option value="38">38</option>
+                            <option value="40">40</option>
+                            <option value="42">42</option>
+                            <option value="44">44</option>
+                            <option value="46">46</option>
+                            <option value="48">48</option>
+                            <option value="50">50</option>
+                            <option value="Único">Único</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tipoPeca">Tipo de Produto</label>
+                        <select id="tipoPeca" required>
+                            <option value="loja">🆕 Loja (Produtos Novos)</option>
+                            <option value="brecho">♻️ Brechó (Produtos Usados)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="disponivelPeca">Disponível para venda?</label>
+                        <select id="disponivelPeca" required>
+                            <option value="sim">Sim</option>
+                            <option value="nao">Não</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="descricaoPeca">Descrição</label>
+                    <textarea id="descricaoPeca" rows="3" placeholder="Descrição da peça (condição, detalhes, etc.)"></textarea>
+                </div>
+                
+                <div class="form-group">
+    <label>Imagens do Produto</label>
+
+    <div class="upload-container">
+
+        <!-- input múltiplo -->
+        <input 
+            type="file"
+            id="inputArquivo"
+            accept="image/*"
+            multiple
+            style="display: none;"
+        >
+
+        <!-- botão -->
+        <button
+            type="button"
+            id="btnUpload"
+            class="btn-upload"
+            onclick="document.getElementById('inputArquivo').click()"
+        >
+            📤 Upload de Imagens
+        </button>
+
+        <!-- quantidade -->
+        <p id="quantidadeFotos" class="quantidade-fotos">
+            Nenhuma foto selecionada
+        </p>
+
+        <!-- preview -->
+        <div id="previewImagens" class="preview-imagens"></div>
+
+        <!-- urls -->
+        <input
+            type="url"
+            id="imagemPeca"
+            placeholder="As URLs das imagens aparecerão aqui automaticamente"
+            readonly
+        >
+
+        <small>
+            Você pode selecionar várias imagens ao mesmo tempo ✨
+        </small>
+
+    </div>
+</div>
+                
+                <button type="submit" class="btn-salvar">💾 Salvar Peça</button>
+            </form>
+        </section>
+
+        <!-- Seção: Lista de Peças -->
+        <section class="painel-section">
+            <h2>📦 Peças Cadastradas</h2>
+            <div id="listaPecas" class="lista-pecas">
+                <!-- Lista carregada via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Seção: Estatísticas -->
+        <section class="painel-section">
+            <h2>📊 Estatísticas</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number" id="totalPecas">0</span>
+                    <span class="stat-label">Total de Peças</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="pecasDisponiveis">0</span>
+                    <span class="stat-label">Disponíveis</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="pecasVendidas">0</span>
+                    <span class="stat-label">Vendidas</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+    <script src="supabase.js"></script>
+    <script>
+        // Verifica se está logado
+        if (!localStorage.getItem('adminLogado')) {
+            window.location.href = 'admin.html';
+        }
+        
+        // Carrega peças ao iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarPecas();
+            atualizarEstatisticas();
+            
+            // Event listener para upload de imagem
+            document.getElementById('inputArquivo').addEventListener('change', async function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    try {
+                        const url = await uploadImagemSupabase(file);
+                        document.getElementById('imagemPeca').value = url;
+                        alert('Imagem enviada com sucesso!');
+                    } catch (error) {
+                        alert('Erro ao enviar imagem: ' + error.message);
+                    }
+                }
+            });
+        });
+        
+        // Função de logout
+        function logout() {
+            localStorage.removeItem('adminLogado');
+            window.location.href = 'admin.html';
+        }
+        
+        // Carregar peças do Supabase
+        async function carregarPecas() {
+            const lista = document.getElementById('listaPecas');
+            
+            try {
+                const pecas = await supabaseFetch('pecas?order=created_at.desc');
+                
+                if (!pecas || pecas.length === 0) {
+                    lista.innerHTML = '<p class="empty-message">Nenhuma peça cadastrada ainda. Use o formulário acima para adicionar!</p>';
+                    return;
+                }
+                
+                lista.innerHTML = pecas.map(peca => {
+                        const indisponivel = peca.disponivel !== 'sim';
+                        const cardClass = indisponivel ? 'peca-card indisponivel' : 'peca-card';
+                        // Se estiver indisponível, mostrar botão para marcar como disponível novamente
+                        const actionButton = indisponivel
+                            ? `<button onclick="marcarDisponivel(${peca.id})" class="btn-marcar-disponivel">✅ Marcar Disponível</button>`
+                            : `<button onclick="marcarIndisponivel(${peca.id})" class="btn-vendido">🛑 Marcar Indisponível</button>`;
+                    const imagem = peca.imagem_url
+                        ? `<div class="peca-imagem">
+                                <img src="${peca.imagem_url}" alt="${peca.nome}">
+                                <div class="overlay-indisponivel">INDISPONÍVEL</div>
+                           </div>`
+                        : `<div class="peca-imagem placeholder"><span>Sem imagem</span></div>`;
+                    const sexoVisivel = (peca.genero || peca.sexo || extrairSexoDescricao(peca.descricao) || '').toLowerCase();
+                    const sexoExibicao = sexoVisivel ? sexoVisivel.charAt(0).toUpperCase() + sexoVisivel.slice(1) : 'Sem gênero';
+                    const descricaoVisivel = limparDescricaoSexo(peca.descricao);
+
+                    return `
+                        <div class="${cardClass}">
+                            ${imagem}
+                            <div class="peca-info">
+                                <h3>${peca.nome}</h3>
+                                <p class="peca-categoria">${peca.categoria} | ${sexoExibicao} | ${peca.tipo === 'brecho' ? 'Vintage' : 'Novo'}</p>
+                                <p class="peca-preco">R$ ${parseFloat(peca.preco).toFixed(2).replace('.', ',')}</p>
+                                <p class="peca-detalhes">Tamanho: ${peca.tamanho} | ${indisponivel ? '❌ Indisponível' : '✅ Disponível'}</p>
+                                ${descricaoVisivel ? `<p class="peca-desc">${descricaoVisivel}</p>` : ''}
+                            </div>
+                            <div class="peca-actions">
+                                ${actionButton}
+                                <button onclick="editarPeca(${peca.id})" class="btn-editar">✏️ Editar</button>
+                                <button onclick="excluirPeca(${peca.id})" class="btn-excluir">🗑️ Excluir</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                lista.innerHTML = '<p class="empty-message">Erro ao carregar peças. Configure o Supabase!</p>';
+            }
+        }
+        
+        // Atualizar estatísticas
+        async function atualizarEstatisticas() {
+            try {
+                const pecas = await supabaseFetch('pecas');
+                document.getElementById('totalPecas').textContent = pecas ? pecas.length : 0;
+                document.getElementById('pecasDisponiveis').textContent = pecas ? pecas.filter(p => p.disponivel === 'sim').length : 0;
+                document.getElementById('pecasVendidas').textContent = pecas ? pecas.filter(p => p.disponivel === 'nao').length : 0;
+            } catch (error) {
+                console.error('Erro ao carregar estatísticas:', error);
+            }
+        }
+        
+        // Excluir peça
+        async function excluirPeca(id) {
+            if (confirm('Tem certeza que deseja excluir esta peça?')) {
+                try {
+                    await excluirPecaSupabase(id);
+                    alert('Peça excluída com sucesso!');
+                    carregarPecas();
+                    atualizarEstatisticas();
+                } catch (error) {
+                    alert('Erro ao excluir peça.');
+                }
+            }
+        }
+
+        // Marcar peça como indisponível
+        async function marcarIndisponivel(id) {
+            if (!confirm('Deseja marcar esta peça como indisponível?')) {
+                return;
+            }
+
+            try {
+                await atualizarPecaSupabase(id, { disponivel: 'nao' });
+                alert('Peça marcada como indisponível.');
+                carregarPecas();
+                atualizarEstatisticas();
+            } catch (error) {
+                alert('Erro ao atualizar o status da peça.');
+            }
+        }
+
+        // Marcar peça como disponível (voltar a 'sim')
+        async function marcarDisponivel(id) {
+            if (!confirm('Deseja marcar esta peça como disponível novamente?')) return;
+
+            try {
+                await atualizarPecaSupabase(id, { disponivel: 'sim' });
+                alert('Peça marcada como disponível.');
+                carregarPecas();
+                atualizarEstatisticas();
+            } catch (error) {
+                alert('Erro ao atualizar o status da peça.');
+            }
+        }
+        
+        // Variável para armazener ID da peça em edição
+        let pecaEmEdicao = null;
+        
+        function extrairSexoDescricao(descricao) {
+            const match = (descricao || '').match(/^\[sexo=(feminino|masculino)\]/i);
+            return match ? match[1].toLowerCase() : '';
+        }
+
+        function limparDescricaoSexo(descricao) {
+            return (descricao || '').replace(/^\[sexo=(feminino|masculino)\]\s*/i, '').trim();
+        }
+
+        function construirDescricaoComSexo(descricao, sexo) {
+            const descricaoLimpa = limparDescricaoSexo(descricao);
+            return sexo ? `[sexo=${sexo}] ${descricaoLimpa}`.trim() : descricaoLimpa;
+        }
+
+        // Editar peça (preenche o formulário)
+        async function editarPeca(id) {
+            try {
+                const pecas = await supabaseFetch(`pecas?id=eq.${id}`);
+                const peca = pecas[0];
+                const sexoDaDescricao = extrairSexoDescricao(peca.descricao);
+                const sexoAtual = peca.genero || peca.sexo || sexoDaDescricao || '';
+                const descricaoVisivel = limparDescricaoSexo(peca.descricao);
+                
+                document.getElementById('nomePeca').value = peca.nome;
+                document.getElementById('categoriaPeca').value = peca.categoria;
+                document.getElementById('generoPeca').value = sexoAtual;
+                document.getElementById('precoPeca').value = peca.preco;
+                document.getElementById('tamanhoPeca').value = peca.tamanho;
+                document.getElementById('descricaoPeca').value = descricaoVisivel;
+                document.getElementById('imagemPeca').value = peca.imagem_url || '';
+                document.getElementById('disponivelPeca').value = peca.disponivel;
+                document.getElementById('tipoPeca').value = peca.tipo || 'loja';
+                
+                pecaEmEdicao = id;
+                
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } catch (error) {
+                alert('Erro ao carregar peça para edição.');
+            }
+        }
+        
+        // Salvar nova peça ou atualizar existente
+        document.getElementById('formNovaPeca').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const sexoSelecionado = document.getElementById('generoPeca').value;
+            const descricaoOriginal = document.getElementById('descricaoPeca').value;
+            const dados = {
+                nome: document.getElementById('nomePeca').value,
+                categoria: document.getElementById('categoriaPeca').value,
+                descricao: construirDescricaoComSexo(descricaoOriginal, sexoSelecionado),
+                preco: parseFloat(document.getElementById('precoPeca').value),
+                tamanho: document.getElementById('tamanhoPeca').value,
+                imagem_url: document.getElementById('imagemPeca').value,
+                disponivel: document.getElementById('disponivelPeca').value,
+                tipo: document.getElementById('tipoPeca').value
+            };
+            
+            try {
+                if (pecaEmEdicao) {
+                    await atualizarPecaSupabase(pecaEmEdicao, dados);
+                    alert('Peça atualizada com sucesso!');
+                    pecaEmEdicao = null;
+                } else {
+                    await adicionarPecaSupabase(dados);
+                    alert('Peça cadastrada com sucesso!');
+                }
+                
+                this.reset();
+                carregarPecas();
+                atualizarEstatisticas();
+            } catch (error) {
+                console.error(error);
+                 alert('Erro ao enviar imagem: ' + error.message);
+            }
+        });
+        
+        // Upload de imagem
+        document.getElementById('inputArquivo').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const btnUpload = document.getElementById('btnUpload');
+            const inputUrl = document.getElementById('imagemPeca');
+            
+            btnUpload.textContent = '⏳ Enviando...';
+            btnUpload.disabled = true;
+            
+            try {
+                const url = await uploadImagemSupabase(file, 'produtos');
+                inputUrl.value = url;
+                alert('Imagem enviada com sucesso! ✅');
+            } catch (error) {
+                alert('Erro ao enviar imagem. Configure o Supabase primeiro.');
+            } finally {
+                btnUpload.textContent = '📤 Upload de Imagem';
+                btnUpload.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
