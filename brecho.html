@@ -373,13 +373,32 @@
             min-height: 40px !important;
         }
 
+        .produto-preco-row {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            margin-bottom: 12px !important;
+        }
+
         .produto-preco {
-            display: block !important;
             font-size: 20px !important;
             font-weight: 800 !important;
             color: #ff6b9d !important;
-            margin-bottom: 12px !important;
             letter-spacing: -0.5px !important;
+        }
+
+        .produto-tamanho {
+            display: inline-flex !important;
+            align-items: center !important;
+            background: #fff0f5 !important;
+            border: 1.5px solid #ffd6e0 !important;
+            color: #c2587e !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.6px !important;
+            text-transform: uppercase !important;
+            padding: 3px 9px !important;
+            border-radius: 999px !important;
         }
 
         .btn-disponivel {
@@ -697,7 +716,10 @@
                     <div class="produto-body">
                         <span class="tag-produto-brecho">♻️ Brechó</span>
                         <p class="produto-nome">${peca.nome}</p>
-                        <span class="produto-preco">R$ ${parseFloat(peca.preco).toFixed(2).replace('.', ',')}</span>
+                        <div class="produto-preco-row">
+                            <span class="produto-preco">R$ ${parseFloat(peca.preco).toFixed(2).replace('.', ',')}</span>
+                            ${peca.tamanho ? `<span class="produto-tamanho">TAM ${peca.tamanho}</span>` : ''}
+                        </div>
                         ${!estaIndisponivel
                             ? `<a href="https://wa.me/5513991692344?text=Oi%20tenho%20interesse%20no%20${encodeURIComponent(peca.nome)}" target="_blank" class="btn-disponivel">Disponível</a>`
                             : `<span class="btn-indisponivel">Indisponível</span>`
